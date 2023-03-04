@@ -11,6 +11,7 @@ void roi_align_forward_npu(Tensor input, Tensor rois, Tensor output,
   int64_t aligned_height_64 = aligned_height;
   int64_t aligned_width_64 = aligned_width;
   int64_t sampling_ratio_64 = sampling_ratio;
+  int64_t roi_end_mode = 0;
   OpCommand cmd;
   cmd.Name("ROIAlign")
       .Input(input)
@@ -20,6 +21,7 @@ void roi_align_forward_npu(Tensor input, Tensor rois, Tensor output,
       .Attr("pooled_height", aligned_height_64)
       .Attr("pooled_width", aligned_width_64)
       .Attr("sample_num", sampling_ratio_64)
+      .Attr("roi_end_mode", roi_end_mode)
       .Run();
 }
 
@@ -31,6 +33,7 @@ void roi_align_backward_npu(Tensor grad_output, Tensor rois, Tensor argmax_y,
   int64_t aligned_height_64 = aligned_height;
   int64_t aligned_width_64 = aligned_width;
   int64_t sampling_ratio_64 = sampling_ratio;
+  int64_t roi_end_mode = 0;
   c10::SmallVector<int64_t, SIZE> xdiff_shape = at_npu::native::array_to_small_vector(grad_input.sizes());
   OpCommand cmd;
   cmd.Name("ROIAlignGrad")
@@ -42,6 +45,7 @@ void roi_align_backward_npu(Tensor grad_output, Tensor rois, Tensor argmax_y,
       .Attr("pooled_height", aligned_height_64)
       .Attr("spatial_scale", spatial_scale)
       .Attr("sample_num", sampling_ratio_64)
+      .Attr("roi_end_mode", roi_end_mode)
       .Run();
 }
 
