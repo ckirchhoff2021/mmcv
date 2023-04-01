@@ -4,10 +4,10 @@ using namespace NPU_NAME_SPACE;
 using namespace std;
 
 Tensor nms_npu(Tensor boxes, Tensor scores, float iou_threshold, int offset) {
-  at::Tensor boxed_offest = at_npu::native::OpPreparation::ApplyTensor(boxes);
-  at::Tensor ones_tensor =
-      at_npu::native::OpPreparation::ApplyTensor(boxes).fill_(1);
-  at::add_out(boxed_offest, boxes, ones_tensor, offset);
+  if(boxes.dtype ==  torch.half) {
+    LOG(WARNING) << "the boxes tensor in NMS op need float dtype, does not support half dtype.";
+  }
+  int64_t offset_64 = offset;
   at::Tensor iou_threshold_y = at_npu::native::OpPreparation::ApplyTensor(
                                    {}, boxes.options().dtype(at::kFloat), boxes)
                                    .fill_(iou_threshold);
@@ -29,6 +29,7 @@ Tensor nms_npu(Tensor boxes, Tensor scores, float iou_threshold, int offset) {
       .Input(max_outputsize_y)
       .Input(iou_threshold_y)
       .Input(scores_threshold_y)
+      .Attr("offset", offset_64)
       .Output(output)
       .Run();
   auto outputsizeBool = at::gt(output, -1);

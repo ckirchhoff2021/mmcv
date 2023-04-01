@@ -46,7 +46,7 @@ We implement common ops used in detection, segmentation, etc.
 | RoIPool                      |     | √    | √   |     | √      |
 | RoIAlignRotated              | √   | √    | √   |     |        |
 | RiRoIAlignRotated            |     | √    |     |     |        |
-| RoIAlign                     | √   | √    | √   |     |        |
+| RoIAlign                     | √   | √    | √   |     | √      |
 | RoIAwarePool3d               |     | √    | √   |     |        |
 | SAConv2d                     |     | √    |     |     |        |
 | SigmoidFocalLoss             |     | √    | √   |     | √      |
@@ -58,5 +58,5 @@ We implement common ops used in detection, segmentation, etc.
 | ThreeNN                      |     | √    | √   |     |        |
 | TINShift                     |     | √    | √   |     |        |
 | UpFirDn2d                    |     | √    |     |     |        |
-| Voxelization                 | √   | √    | √   |     |        |
+| Voxelization                 | √   | √    | √   |     | √      |
 | PrRoIPool                    |     | √    |     |     |        |
